@@ -1,0 +1,13 @@
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "open-search"
+          ContainerPort: 8081
+
+Hooks:
+  - AfterAllowTestTraffic: "arn:aws:lambda:eu-west-2:012615398682:function:dxhub-codedeploy-lifecycle"
+                        # arn:aws:lambda:eu-west-2:012615398682:function:dxhub-codedeploy-lifecycle
