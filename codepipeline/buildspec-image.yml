@@ -1,0 +1,24 @@
+version: 0.2
+
+env:
+  parameter-store:
+    ACCOUNT_ID: "/dxhub/ACCOUNT_ID"
+    REGION: "/dxhub/REGION"
+    DOCKER_HUB_LOGIN: "/dxhub/CodeBuild/DOCKER_HUB_LOGIN"
+    DOCKER_HUB_PASSWORD: "/dxhub/CodeBuild/DOCKER_HUB_PASSWORD"
+
+phases:
+  install:
+    runtime-versions:
+      docker: 20
+  build:
+    commands:
+      - echo Building the Docker image
+      - docker build --build-arg GIT_COMMIT=${CODEBUILD_RESOLVED_SOURCE_VERSION} -t open-search-dev:latest -f codepipeline/Dockerfile.app .
+      - echo Build completed
+artifacts:
+  files:
+    - codepipeline/appspec.yaml
+    - codepipeline/taskdef.json
+    - imageDetail.json
+  discard-paths: yes 
